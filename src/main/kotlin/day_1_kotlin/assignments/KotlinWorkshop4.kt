@@ -1,20 +1,48 @@
-package day_1_kotlin.assignments// Workshop #4 - classes, properties, constructor, visibility modifiers
+package day_1_kotlin.assignments
 
-typealias CodeChecker = (String) -> Boolean
+// Workshop #4 - classes, properties, constructor, visibility modifiers
 
-class SimplePhoneVerificator(private val codeChecker: CodeChecker) {
+object SimplePhoneChecker {
 
-    private val consoleLogger: ConsoleLogger = ConsoleLogger()
+    @JvmStatic
+    fun main(args: Array<String>) {
+        val codeChecker: (String) -> Boolean = { code -> code == "1234" }
+
+        // TODO 1: Create an instance of SimplePhoneVerificator
+        val phoneVerificator = SimplePhoneVerificator(codeChecker)
+
+        val isVerified = false
+        // TODO 2: add logic here
+        //  Use SimplePhoneVerificator.verify and SimplePhoneVerificator.setVerifiedProperty methods to verify your phone
+        //  You program should print "Code is verified!"
+
+        if (isVerified) {
+            println("Code is verified!")
+        } else {
+            println("Error: Code is not verified!")
+        }
+    }
+}
+
+
+// Don't touch this part:
+class Animal(private val codeChecker: (String) -> Boolean) {
 
     private var phone: String = ""
 
+    /**
+     * Checks if a [code] is valid:
+     * 1. Not empty
+     * 2. Longer than 3 symbols
+     * 3. [codeChecker] returns true
+     */
     fun verify(code: String): Boolean {
         if (phone.isEmpty()) {
-            consoleLogger.log("Phone is empty")
+            println("Phone is empty")
             return false
         }
         if (code.length < 4) {
-            consoleLogger.log("Code is too short")
+            println("Code is too short")
             return false
         }
         return codeChecker.invoke(code)
@@ -22,37 +50,5 @@ class SimplePhoneVerificator(private val codeChecker: CodeChecker) {
 
     fun setVerifiedProperty(property: String) {
         phone = property
-    }
-}
-
-class ConsoleLogger {
-    fun log(message: String) {
-        println(message)
-    }
-}
-
-object SimplePhoneChecker {
-
-    @JvmStatic
-    fun main(args: Array<String>) {
-        val codeChecker: CodeChecker = { code -> code == "1234" }
-        val phoneVerificator = SimplePhoneVerificator(codeChecker)
-
-        // TODO: add logic only here
-        // Use SimplePhoneVerificator.verify and SimplePhoneVerificator.setVerifiedProperty methods to verify your phone
-        // You program should print "Code is verified!"
-
-        // Solution example:
-        /*val phone = "89626200421"
-        val code = "1234"
-        phoneVerificator.setVerifiedProperty(phone)
-        val isVerified = phoneVerificator.verify(code)*/
-
-        // TODO: Uncomment
-        /*if (isVerified) {
-            println("Code is verified!")
-        } else {
-            println("Error: Code is not verified!")
-        }*/
     }
 }
